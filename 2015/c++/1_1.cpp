@@ -1,3 +1,4 @@
+#include <text_processing/count.hpp>
 #include <io_dev/file.h>
 #include <fmt/printf.h>
 
@@ -12,14 +13,14 @@ int main(int argc, char const *argv[])
 		fmt::print("File not exists\n");
 		return 2;
 	}
-	auto maybe_lines = IO::File(path, IO::OpenMode::Read).read_lines();
-	if(!maybe_lines){
+	auto maybe_line = IO::File(path, IO::OpenMode::Read).read();
+	if(!maybe_line){
 		fmt::print("Can not read lines from {}\n", path.string());
 		return -1;
 	}
-	auto lines = maybe_lines.value();
-	fmt::print("{} lines read\n", lines.size());
-	for(const auto& line : lines)
-		fmt::print("{}\n", line);
+	auto line = maybe_line.value();
+	auto floor = Text::count(line, '(') - Text::count(line, ')');
+	fmt::print("Floor is {}\n", floor);
+	
 	return 0;
 }

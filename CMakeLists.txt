@@ -5,7 +5,7 @@ include(FetchContent)
 FetchContent_Declare(
   stp
   GIT_REPOSITORY https://github.com/bialasjaroslaw/stp.git
-  GIT_TAG        df8359facbeaddee20f8f0061e4a3ca7da626dfa
+  GIT_TAG        1b76812b0241318eeb55539130a50b68e8d2ac61
 )
 FetchContent_Declare(
   fmt
@@ -14,8 +14,8 @@ FetchContent_Declare(
 )
 FetchContent_Declare(
   io_device
-  GIT_REPOSITORY https://github.com/bialasjaroslaw/io_device.git
-  GIT_TAG        4e670ca631c6917dadc1fc933a8d08fb97c46b79
+  GIT_REPOSITORY https://github.com/bialasjaroslaw/io_dev.git
+  GIT_TAG        02433eb95a3fa2135aaadb2bd99553533e0aacd3
 )
 
 FetchContent_MakeAvailable(stp)
@@ -36,7 +36,7 @@ foreach(YEAR RANGE 2015 2023)
 			if(EXISTS ${CPP_FILE})
 				# message(STATUS "Add target ${CPP_TARGET}")
 				add_executable(${CPP_TARGET} ${CPP_FILE})
-				target_link_libraries(${CPP_TARGET} PUBLIC text_processing io_device fmt::fmt)
+				target_link_libraries(${CPP_TARGET} PUBLIC text_processing io_dev fmt::fmt)
 				add_dependencies(${YEAR}_${NUMBER} ${CPP_TARGET})
 			endif()
 		endforeach()
