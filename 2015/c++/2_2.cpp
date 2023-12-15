@@ -1,4 +1,5 @@
 #include <text_processing/split.hpp>
+#include <text_processing/convert.hpp>
 #include <io_dev/file.h>
 #include <fmt/printf.h>
 
@@ -25,9 +26,10 @@ int main(int argc, char const *argv[])
 		if(parts.size() != 3){
 			continue;
 		}
-		auto w = std::strtol(parts[0].data(), nullptr, 10);
-		auto h = std::strtol(parts[1].data(), nullptr, 10);
-		auto l = std::strtol(parts[2].data(), nullptr, 10);
+		auto numbers = Text::convert<int32_t>(parts);
+		auto w = numbers[0];
+		auto h = numbers[1];
+		auto l = numbers[2];
 
 		auto max_val = w > l ? (w > h ? w : h) : (l > h ? l : h);
 		auto ribbon = 2 * (w + h + l - max_val) + w * h * l;

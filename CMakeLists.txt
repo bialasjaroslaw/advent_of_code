@@ -5,13 +5,14 @@ include(FetchContent)
 FetchContent_Declare(
   stp
   GIT_REPOSITORY https://github.com/bialasjaroslaw/stp.git
-  GIT_TAG        1b76812b0241318eeb55539130a50b68e8d2ac61
+  GIT_TAG        238e98eec75786570466f13c5f0a5b1b42fb6648
 )
 FetchContent_Declare(
   fmt
   GIT_REPOSITORY https://github.com/fmtlib/fmt.git
   GIT_TAG        f5e54359df4c26b6230fc61d38aa294581393084
 )
+set(IO_DEV_ENABLE_TESTS OFF)
 FetchContent_Declare(
   io_device
   GIT_REPOSITORY https://github.com/bialasjaroslaw/io_dev.git
