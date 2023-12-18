@@ -18,10 +18,18 @@ FetchContent_Declare(
   GIT_REPOSITORY https://github.com/bialasjaroslaw/io_dev.git
   GIT_TAG        02433eb95a3fa2135aaadb2bd99553533e0aacd3
 )
+FetchContent_Declare(
+  hash
+  GIT_REPOSITORY https://github.com/bialasjaroslaw/hash.git
+  GIT_TAG        e7cde339889e1ae375417d047397ecbf9632b71d
+)
+
+
 
 FetchContent_MakeAvailable(stp)
 FetchContent_MakeAvailable(io_device)
 FetchContent_MakeAvailable(fmt)
+FetchContent_MakeAvailable(hash)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 20)
@@ -37,7 +45,7 @@ foreach(YEAR RANGE 2015 2023)
 			if(EXISTS ${CPP_FILE})
 				# message(STATUS "Add target ${CPP_TARGET}")
 				add_executable(${CPP_TARGET} ${CPP_FILE})
-				target_link_libraries(${CPP_TARGET} PUBLIC text_processing io_dev fmt::fmt)
+				target_link_libraries(${CPP_TARGET} PUBLIC text_processing io_dev hash fmt::fmt)
 				add_dependencies(${YEAR}_${NUMBER} ${CPP_TARGET})
 			endif()
 		endforeach()
