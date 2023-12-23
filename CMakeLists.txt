@@ -12,6 +12,11 @@ FetchContent_Declare(
   GIT_REPOSITORY https://github.com/fmtlib/fmt.git
   GIT_TAG        f5e54359df4c26b6230fc61d38aa294581393084
 )
+FetchContent_Declare(
+  range
+  GIT_REPOSITORY https://github.com/ericniebler/range-v3.git
+  GIT_TAG        a81477931a8aa2ad025c6bda0609f38e09e4d7ec
+)
 set(IO_DEV_ENABLE_TESTS OFF)
 FetchContent_Declare(
   io_device
@@ -29,6 +34,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(stp)
 FetchContent_MakeAvailable(io_device)
 FetchContent_MakeAvailable(fmt)
+FetchContent_MakeAvailable(range)
 FetchContent_MakeAvailable(hash)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -45,7 +51,7 @@ foreach(YEAR RANGE 2015 2023)
 			if(EXISTS ${CPP_FILE})
 				# message(STATUS "Add target ${CPP_TARGET}")
 				add_executable(${CPP_TARGET} ${CPP_FILE})
-				target_link_libraries(${CPP_TARGET} PUBLIC text_processing io_dev hash fmt::fmt)
+				target_link_libraries(${CPP_TARGET} PUBLIC text_processing io_dev hash fmt::fmt range-v3::range-v3)
 				add_dependencies(${YEAR}_${NUMBER} ${CPP_TARGET})
 			endif()
 		endforeach()
