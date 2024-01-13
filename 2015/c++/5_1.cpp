@@ -21,7 +21,7 @@ bool is_nice_line(const std::string& str) {
 	// if (ranges::any_of(bad_seq, [&](const std::string_view& seq){return Text::find(str, seq) != Text::End;}))
 	// 	return false;
 	if (ranges::any_of(ranges::views::sliding(str, 2), [&](const auto& sub){
-		return bad_seq.contains(std::string_view(&*sub.begin(), ranges::distance(sub)));
+		return bad_seq.contains(std::string_view(&*sub.begin(), static_cast<uint64_t>(ranges::distance(sub))));
 	}))
 		return false;
 	if (ranges::none_of(ranges::views::sliding(str, 2), [&](const auto& sub){

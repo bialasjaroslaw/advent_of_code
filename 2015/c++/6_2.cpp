@@ -26,8 +26,8 @@ template <typename T>
 class grid {
 public:
 	grid(uint64_t width, uint64_t height, const T& value)
-	: _height(height)
-	, _width(width)
+	: _width(width)
+	, _height(height)
 	, _mem(new T[width * height])
 	{
 		fill(value);
@@ -117,7 +117,6 @@ private:
 	T* _ptr = nullptr;
 	T* _start = nullptr;
 	T* _end = nullptr;
-	point pt;
 	uint64_t _stride = 0;
 };
 
@@ -151,17 +150,14 @@ public:
 			*it = value >= *it ? 0 : *it - value;
 		}
 	}
-	uint64_t sum(){
-		uint64_t total = 0;
+	int64_t sum(){
+		int64_t total = 0;
 		for(auto it = _s ; it <= _e ; ++it)
 			total += *it;
 		return total;
 	}
 	void print() const{
 		auto line_length = _b.end.x - _b.start.x;
-		auto lines = _b.end.y - _b.start.y;
-		auto ptr = &*_s;
-		auto cnt = 1;
 		for(auto it = &*_s ; it <= &*_e ; it += _s.stride()){
 			fmt::print("{}\n", fmt::join(std::span(it, line_length), " "));
 		}
@@ -185,7 +181,7 @@ point parse_point(const std::string_view& str){
 
 operation parse_operation(const std::string& str){
 	operation op;
-	uint64_t start = 0;
+	int32_t start = 0;
 	if(str.starts_with("turn on")){
 		op.code = 1;
 		start = 8;
