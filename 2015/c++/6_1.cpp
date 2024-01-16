@@ -75,8 +75,8 @@ public:
 	}
 
 private:
-	uint64_t _width = 0;
 	uint64_t _height = 0;
+	uint64_t _width = 0;
 	std::unique_ptr<T[]> _mem;
 };
 
@@ -117,7 +117,6 @@ private:
 	T* _ptr = nullptr;
 	T* _start = nullptr;
 	T* _end = nullptr;
-	point pt;
 	uint64_t _stride = 0;
 };
 
@@ -148,7 +147,7 @@ public:
 		if(debug_msg)
 			fmt::print("Toggle, going from {} -> {} ({} elements)\n", &*_s - _g.ptr(0, 0), &*_e - _g.ptr(0, 0), &*_e - &*_s);
 		for(auto it = _s ; it <= _e ; ++it)
-			*it = uint64_t{1} -*it;
+			*it = 1 -*it;
 	}
 	template <typename F>
 	uint64_t count_if(F&& f){
@@ -160,9 +159,6 @@ public:
 	}
 	void print() const{
 		auto line_length = _b.end.x - _b.start.x;
-		auto lines = _b.end.y - _b.start.y;
-		auto ptr = &*_s;
-		auto cnt = 1;
 		for(auto it = &*_s ; it <= &*_e ; it += _s.stride()){
 			fmt::print("{}\n", fmt::join(std::span(it, line_length), " "));
 		}
@@ -186,7 +182,7 @@ point parse_point(const std::string_view& str){
 
 operation parse_operation(const std::string& str){
 	operation op;
-	uint64_t start = 0;
+	int32_t start = 0;
 	if(str.starts_with("turn on")){
 		op.code = 1;
 		start = 8;

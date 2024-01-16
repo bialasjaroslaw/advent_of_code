@@ -49,10 +49,10 @@ int main(int argc, char const *argv[])
 	++house_map[sub_to_idx(pos_y, pos_x)];
 	++house_map[sub_to_idx(robo_pos_y, robo_pos_x)];
 
-	for(int idx = 0 ; idx < line.size() ; idx+=2)
+	for(uint32_t idx = 0 ; idx < line.size() ; idx+=2)
 	{
 		auto move = line[idx];
-		auto robo_move = line[idx  +1];
+		auto robo_move = line[idx + 1];
 
 		advance(move, pos_y, pos_x);
 		advance(robo_move, robo_pos_y, robo_pos_x);

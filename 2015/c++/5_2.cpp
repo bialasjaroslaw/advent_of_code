@@ -14,7 +14,7 @@ bool is_nice_line(const std::string& str) {
 	}))
 		return false;
 	if (ranges::none_of(ranges::views::sliding(str, 4), [&](const auto& sub){
-		return Text::find(str, std::string_view(&*sub.begin(), 2), ranges::distance(str.begin(), sub.begin()) + 2) != Text::End;
+		return Text::find(str, std::string_view(&*sub.begin(), 2), static_cast<int32_t>(ranges::distance(str.begin(), sub.begin()) + 2)) != Text::End;
 	}))
 		return false;
 	return true;
