@@ -1,41 +1,46 @@
 cmake_minimum_required(VERSION 3.14)
 project(AdventOfCode)
 
-include(FetchContent)
-FetchContent_Declare(
-  stp
-  GIT_REPOSITORY https://github.com/bialasjaroslaw/stp.git
-  GIT_TAG        238e98eec75786570466f13c5f0a5b1b42fb6648
+include(Packages.cmake)
+add_dependency(
+  NAME fmt
+  URL https://github.com/fmtlib/fmt/releases/download/10.2.1/fmt-10.2.1.zip
 )
-FetchContent_Declare(
-  fmt
-  GIT_REPOSITORY https://github.com/fmtlib/fmt.git
-  GIT_TAG        f5e54359df4c26b6230fc61d38aa294581393084
+
+add_dependency(
+  NAME range-v3
+  URL https://github.com/ericniebler/range-v3/archive/refs/tags/0.12.0.zip
 )
-FetchContent_Declare(
-  range
-  GIT_REPOSITORY https://github.com/ericniebler/range-v3.git
-  GIT_TAG        a81477931a8aa2ad025c6bda0609f38e09e4d7ec
+
+add_dependency(
+  NAME _project_options 
+  URL https://github.com/aminya/project_options/archive/refs/tags/v0.33.0.zip
+)
+
+set(TEXT_PROCESSING_ENABLE_TESTS OFF)
+add_dependency(
+  NAME stp 
+  REPO https://github.com/bialasjaroslaw/stp.git
+  HASH aef0329b3cd8aa7dc52ba838d15221b515a91ff8
 )
 set(IO_DEV_ENABLE_TESTS OFF)
-FetchContent_Declare(
-  io_device
-  GIT_REPOSITORY https://github.com/bialasjaroslaw/io_dev.git
-  GIT_TAG        02433eb95a3fa2135aaadb2bd99553533e0aacd3
+add_dependency(
+  NAME io_device
+  REPO https://github.com/bialasjaroslaw/io_dev.git
+  HASH 02433eb95a3fa2135aaadb2bd99553533e0aacd3
 )
-FetchContent_Declare(
-  hash
-  GIT_REPOSITORY https://github.com/bialasjaroslaw/hash.git
-  GIT_TAG        e7cde339889e1ae375417d047397ecbf9632b71d
+add_dependency(
+  NAME hash
+  REPO https://github.com/bialasjaroslaw/hash.git
+  HASH e7cde339889e1ae375417d047397ecbf9632b71d
 )
 
-
-
-FetchContent_MakeAvailable(stp)
-FetchContent_MakeAvailable(io_device)
-FetchContent_MakeAvailable(fmt)
-FetchContent_MakeAvailable(range)
-FetchContent_MakeAvailable(hash)
+use_dependency(fmt)
+use_dependency(range-v3)
+use_dependency(stp)
+use_dependency(hash)
+use_dependency(io_device)
+use_dependency(_project_options)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 20)
@@ -51,7 +56,7 @@ foreach(YEAR RANGE 2015 2023)
 			if(EXISTS ${CPP_FILE})
 				# message(STATUS "Add target ${CPP_TARGET}")
 				add_executable(${CPP_TARGET} ${CPP_FILE})
-				target_link_libraries(${CPP_TARGET} PUBLIC text_processing io_dev hash fmt::fmt range-v3::range-v3)
+				target_link_libraries(${CPP_TARGET} PUBLIC fmt::fmt range-v3::range-v3 text_processing io_dev hash)
 				add_dependencies(${YEAR}_${NUMBER} ${CPP_TARGET})
 			endif()
 		endforeach()
