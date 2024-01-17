@@ -26,7 +26,7 @@ int main(int argc, char const *argv[])
 	while(true)
 	{
 		auto modified = fmt::format("{}{}", line, counter);
-		md5_hasher::from_string(modified.c_str(), output);
+		Hash::md5_hasher::from_string(modified.c_str(), output);
 		if(output[0] == 0 && output[1] == 0 && (output[2] & 0xF0) == 0)
 		{
 			fmt::print("{}\n", counter);

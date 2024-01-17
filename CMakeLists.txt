@@ -21,18 +21,18 @@ set(TEXT_PROCESSING_ENABLE_TESTS OFF)
 add_dependency(
   NAME stp 
   REPO https://github.com/bialasjaroslaw/stp.git
-  HASH aef0329b3cd8aa7dc52ba838d15221b515a91ff8
+  HASH cff5d5a945d9551c88a4d167e073cf4faf12ca3e
 )
 set(IO_DEV_ENABLE_TESTS OFF)
 add_dependency(
   NAME io_device
   REPO https://github.com/bialasjaroslaw/io_dev.git
-  HASH 02433eb95a3fa2135aaadb2bd99553533e0aacd3
+  HASH c93ea6422fa4339bb0a10af16244896fd04a0eaa
 )
 add_dependency(
   NAME hash
   REPO https://github.com/bialasjaroslaw/hash.git
-  HASH e7cde339889e1ae375417d047397ecbf9632b71d
+  HASH 274ebe6f16209da59c230904f328572d6ca902b9
 )
 
 use_dependency(fmt)
