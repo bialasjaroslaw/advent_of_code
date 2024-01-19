@@ -22,7 +22,6 @@ uint64_t decode_space(const std::string& str){
 			++len;
 		}
 	}
-
 	return len;
 }
 
@@ -45,8 +44,9 @@ int main(int argc, char const *argv[])
 	auto lines = maybe_lines.value();
 	auto total = 0UL;
 	for(const auto& line : lines){
-		auto enc_len = decode_space(line);
-		total += (line.size() - enc_len);
+		if(line.size() == 0)
+			continue;
+		total += (line.size() - decode_space(line));
 	}
 	fmt::print("{}\n", total);
 	
