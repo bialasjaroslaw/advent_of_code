@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <cstdint>
 #include <fmt/core.h>
 #include <fmt/printf.h>
 #include <io_dev/file.h>
@@ -38,10 +37,10 @@ auto find_best_route() {
   for (const auto &p : distances)
     cities.push_back(p.first);
   auto best_path = cities;
-  auto best_len = std::numeric_limits<int>::max();
+  auto best_len = std::numeric_limits<int>::min();
   do {
     auto current = calc_route_len(cities);
-    if (current < best_len) {
+    if (current > best_len) {
       best_len = current;
       best_path = cities;
     }
