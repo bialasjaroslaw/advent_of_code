@@ -3,6 +3,12 @@ project(AdventOfCode)
 
 include(Packages.cmake)
 add_dependency(
+  NAME nlohmann-json # TODO package_name for cmake is different than vcpkg
+  CMAKE_PKG nlohmann_json
+  URL https://github.com/nlohmann/json/archive/refs/tags/v3.11.3.zip
+)
+
+add_dependency(
   NAME fmt
   URL https://github.com/fmtlib/fmt/releases/download/10.2.1/fmt-10.2.1.zip
 )
@@ -35,6 +41,7 @@ add_dependency(
   HASH 274ebe6f16209da59c230904f328572d6ca902b9
 )
 
+use_dependency(nlohmann-json)
 use_dependency(fmt)
 use_dependency(range-v3)
 use_dependency(stp)
@@ -56,7 +63,15 @@ foreach(YEAR RANGE 2015 2023)
 			if(EXISTS ${CPP_FILE})
 				# message(STATUS "Add target ${CPP_TARGET}")
 				add_executable(${CPP_TARGET} ${CPP_FILE})
-				target_link_libraries(${CPP_TARGET} PUBLIC fmt::fmt range-v3::range-v3 text_processing io_dev hash)
+				target_link_libraries(${CPP_TARGET} 
+					PUBLIC 
+						fmt::fmt
+						range-v3::range-v3
+						nlohmann_json::nlohmann_json
+						text_processing
+						io_dev
+						hash
+				)
 				add_dependencies(${YEAR}_${NUMBER} ${CPP_TARGET})
 			endif()
 		endforeach()
