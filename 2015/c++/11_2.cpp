@@ -73,7 +73,7 @@ int main(int argc, char const *argv[]) {
     return -1;
   }
   auto line = maybe_line.value();
-  fmt::print("{}\n", update_password(line));
+  update_password(line);
   fmt::print("{}\n", update_password(line));
   return 0;
 }
