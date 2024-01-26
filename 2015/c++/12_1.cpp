@@ -13,7 +13,7 @@ uint64_t count(const nlohmann::json &json_obj) {
   if (json_obj.is_array() || json_obj.is_object())
     return std::accumulate(
         json_obj.begin(), json_obj.end(), 0U,
-        [](uint64_t acc, auto current) { return acc + count(current); });
+        [](uint64_t acc, const auto &current) { return acc + count(current); });
   return 0;
 }
 
