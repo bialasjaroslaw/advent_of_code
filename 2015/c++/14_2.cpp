@@ -36,7 +36,7 @@ struct Reindeer {
     }
   }
 
-  void add_score(uint32_t points = 1) { score += points; }
+  void add_score() { ++score; }
 };
 
 Reindeer make_reindeer(const std::string &line) {
@@ -75,26 +75,37 @@ int main(int argc, char const *argv[]) {
     if (deer.speed > 0)
       reindeers.push_back(deer);
   }
-  for (uint32_t sec = 0; sec < 2503; ++sec) {
-    std::for_each(reindeers.begin(), reindeers.end(),
-                  [](Reindeer &deer) { deer.tick(); });
-    auto best_deer =
-        *std::max_element(reindeers.begin(), reindeers.end(),
-                          [](const Reindeer &lhs, const Reindeer &rhs) {
-                            return lhs.current < rhs.current;
-                          });
-    std::for_each(reindeers.begin(), reindeers.end(),
-                  [best_deer](Reindeer &deer) {
-                    if (deer.current == best_deer.current)
-                      deer.add_score(1);
-                  });
-  }
-  auto best_deer =
-      *std::max_element(reindeers.begin(), reindeers.end(),
-                        [](const Reindeer &lhs, const Reindeer &rhs) {
-                          return lhs.score < rhs.score;
-                        });
 
-  fmt::print("{}\n", best_deer.score);
+  auto select_by_field_and_update = [](auto &collection, const auto &value,
+                                       auto &&accessor, auto &&action) {
+    for (auto &elem : collection) {
+      if (elem.*accessor == value)
+        (elem.*action)();
+    }
+  };
+
+  auto apply_to_all = [](auto &collection, auto &&action) {
+    for (auto &elem : collection)
+      (elem.*action)();
+  };
+
+  auto compare_by_attribute = [](auto &&attr) {
+    return
+        [&](const auto &lhs, const auto &rhs) { return lhs.*attr < rhs.*attr; };
+  };
+
+  auto max_by_attrib = [&](const auto &collection, auto &&accessor) {
+    return std::max_element(collection.cbegin(), collection.cend(),
+                            compare_by_attribute(accessor));
+  };
+
+  for (uint32_t sec = 0; sec < 2503; ++sec) {
+    apply_to_all(reindeers, &Reindeer::tick);
+    auto best_deer = max_by_attrib(reindeers, &Reindeer::current);
+    select_by_field_and_update(reindeers, best_deer->current,
+                               &Reindeer::current, &Reindeer::add_score);
+  }
+  auto best_deer = max_by_attrib(reindeers, &Reindeer::score);
+  fmt::print("{}\n", best_deer->score);
   return 0;
 }
