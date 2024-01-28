@@ -4,7 +4,8 @@
 #include <fmt/format.h>
 #include <fmt/printf.h>
 #include <io_dev/file.h>
-#include <iterator>
+#include <range/v3/algorithm/max.hpp>
+#include <range/v3/view/transform.hpp>
 #include <text_processing/convert.hpp>
 #include <text_processing/split.hpp>
 #include <text_processing/sub.hpp>
@@ -40,12 +41,10 @@ uint64_t distance(const Reindeer &deer, uint32_t time) {
 
 uint64_t fastest_reindeer(const std::vector<Reindeer> &reindeers,
                           uint32_t time) {
-  std::vector<uint64_t> distances(reindeers.size());
-  std::transform(reindeers.cbegin(), reindeers.cend(), distances.begin(),
-                 [time](const Reindeer &deer) { return distance(deer, time); });
-  if (distances.size() == 0)
-    return 0;
-  return *std::max_element(distances.begin(), distances.end());
+  return ranges::max(reindeers |
+                     ranges::views::transform([time](const auto &elem) {
+                       return distance(elem, time);
+                     }));
 }
 
 int main(int argc, char const *argv[]) {

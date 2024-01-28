@@ -4,6 +4,9 @@
 #include <fmt/format.h>
 #include <fmt/printf.h>
 #include <io_dev/file.h>
+#include <range/v3/algorithm/for_each.hpp>
+#include <range/v3/algorithm/max.hpp>
+#include <range/v3/view/filter.hpp>
 #include <sys/types.h>
 #include <text_processing/convert.hpp>
 #include <text_processing/split.hpp>
@@ -76,36 +79,16 @@ int main(int argc, char const *argv[]) {
       reindeers.push_back(deer);
   }
 
-  auto select_by_field_and_update = [](auto &collection, const auto &value,
-                                       auto &&accessor, auto &&action) {
-    for (auto &elem : collection) {
-      if (elem.*accessor == value)
-        (elem.*action)();
-    }
-  };
-
-  auto apply_to_all = [](auto &collection, auto &&action) {
-    for (auto &elem : collection)
-      (elem.*action)();
-  };
-
-  auto compare_by_attribute = [](auto &&attr) {
-    return
-        [&](const auto &lhs, const auto &rhs) { return lhs.*attr < rhs.*attr; };
-  };
-
-  auto max_by_attrib = [&](const auto &collection, auto &&accessor) {
-    return std::max_element(collection.cbegin(), collection.cend(),
-                            compare_by_attribute(accessor));
-  };
-
   for (uint32_t sec = 0; sec < 2503; ++sec) {
-    apply_to_all(reindeers, &Reindeer::tick);
-    auto best_deer = max_by_attrib(reindeers, &Reindeer::current);
-    select_by_field_and_update(reindeers, best_deer->current,
-                               &Reindeer::current, &Reindeer::add_score);
+    ranges::for_each(reindeers, &Reindeer::tick);
+    auto best_deer = ranges::max(reindeers, std::less<>(), &Reindeer::current);
+    ranges::for_each(
+        reindeers | ranges::views::filter([value = best_deer.current](
+                                              auto v) { return v == value; },
+                                          &Reindeer::current),
+        &Reindeer::add_score);
   }
-  auto best_deer = max_by_attrib(reindeers, &Reindeer::score);
-  fmt::print("{}\n", best_deer->score);
+  auto best_deer = ranges::max(reindeers, std::less<>(), &Reindeer::score);
+  fmt::print("{}\n", best_deer.score);
   return 0;
 }
