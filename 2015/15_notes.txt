@@ -1,0 +1,9 @@
+Seems like a brute force solution, iterate over set of all possibilities for x1, x2, ..., xn. Need to check if for given r there is already sum([x1, x2, ... , xr]) >= 100. If so rest of solution set - [xr+1, ... , xn] is zero vector
+
+For first part we can limit greatly space of solutions if we take into consideration that we want to maximize a function that is convex. This is clasic optimization problem. Values can be ints only so to simplify searching minimum/maximum in a given direction in R^n space, we can just try to find better solution for any direction like where sum([x1, x2, ..., xn]) == 2. To simplify that statement, for all possible pairs, try to add 1 to first and substract one from second.
+
+Second part of solution is classic brute force, because we can not use same approach - solution space have holes (propably bigger than non-holes). 
+
+While it is not so complicated to iterate over whole N^4 space (even N^3, because last value is explicitly given by constrains sum(x1, x2, x3, x4) == 100), because it is very easy to assume that idx in range(p^4) where p is just a limiting value (100 in our case) will be used to calculate all of sub-indices, it is just a mess. I mean, it requires to write some loops, or convoluted logic.
+
+Idea - write a C++ library that can be used to hide that kind of "messy" code and just generate all possible states. 

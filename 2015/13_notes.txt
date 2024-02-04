@@ -1,0 +1,1 @@
+Another combination exercise. One optimisation that has not been yet implemented is that because table is round, we can use one person as a reference and though limit order of combinations by 1

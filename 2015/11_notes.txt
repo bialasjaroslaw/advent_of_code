@@ -1,0 +1,1 @@
+One thing that can be nice to have for this, is some kind of generator function that will iterate over vector of some values from some set, and then increment next value and to that again, and again. Except that it is just writing validator functions.

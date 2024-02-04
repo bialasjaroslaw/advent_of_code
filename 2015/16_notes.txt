@@ -1,0 +1,1 @@
+Easy task, most of time spent on parsing input. Whole fun is in validation function and that what differentiates first and second part

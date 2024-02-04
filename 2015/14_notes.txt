@@ -1,0 +1,1 @@
+Nothing fancy, in second part it was required to remember state and run "simulation" second by second.
