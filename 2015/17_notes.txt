@@ -1,0 +1,4 @@
+I have not figure out if there is better way (like order of magnitude).
+However is worth to point out that if collection is sorted it is possible to limit brute force search.
+If for any i in range [1,N] sum(collection[:N]) is not greater than sum that we are looking for (descending order), there is no point of testing that small number of chosen values.
+On the other hand, for ascending sort order if the same sum is lower than seached value, we have to consider that even more items might sum to exact value
